@@ -36,3 +36,210 @@
     transform: rotate(360deg);
   }
 }
+
+/*Alignments*/
+
+.flex-1 {
+  flex: 1;
+}
+
+.flex-5 {
+  flex: 5;
+}
+
+.flexbox {
+  display: flex;
+}
+
+.justify-content-flex-end {
+  justify-content: flex-end;
+}
+
+.justify-content-flex-start {
+  justify-content: flex-start;
+}
+
+.justify-content-center {
+  justify-content: center;
+}
+
+.flexbox-row {
+  display: flex;
+  flex-direction: row;
+}
+
+.flexbox-column {
+  display: flex;
+  flex-direction: column;
+}
+
+.align-center {
+  align-items: center;
+}
+
+/*Margins, paddings, and borders*/
+
+.margin-25px {
+  margin: 25px;
+}
+
+.margin-right-25px {
+  margin-right: 25px;
+}
+
+.margin-left-5px {
+  margin-left: 5px;
+}
+
+.margin-left-10px {
+  margin-left: 10px;
+}
+
+.margin-left-25px {
+  margin-left: 25px;
+}
+
+.margin-10px {
+  margin: 10px;
+}
+
+.padding-10px {
+  padding: 10px;
+}
+
+.padding-15px {
+  padding: 15px;
+}
+
+.padding-25px {
+  padding: 25px;
+}
+
+.border-solid-1px {
+  border-width: 1px;
+  border-style: solid;
+  border-color: black;
+}
+
+.border-right-solid-1px {
+  border-right: 1px;
+  border-style: solid;
+  border-color: black;
+}
+
+.border-bottom-solid-1px {
+  border-bottom: 1px;
+  border-style: solid;
+}
+
+.border-bottom-solid-light-gray-1px {
+  border-bottom: 1px;
+  border-style: solid;
+  color: lightgray;
+}
+
+.border-none {
+  border: none;
+}
+
+/*Geometry*/
+
+.width-50-percent {
+  width: 50%;
+}
+
+.display-block {
+  display: block;
+}
+
+/*Colors*/
+
+.color-light-gray {
+  color: #61dafb;
+}
+
+.background-color-white {
+  background-color: white;
+}
+
+.background-color-transparent {
+  background-color: transparent;
+}
+
+.background-color-aqua {
+  background-color: aqua;
+}
+
+.background-color-gray {
+  background-color: gray;
+  opacity: 20%;
+}
+
+.opacity-20 {
+  opacity: 20%;
+}
+
+.opacity-5 {
+  opacity: 5%;
+}
+
+/*Component class*/
+
+.search-container {
+}
+
+.search-container:hover {
+  box-shadow: 1px 1px 1px 1px darkgrey;
+}
+
+.logo-button {
+}
+
+.logo-button:hover {
+  cursor: pointer;
+}
+
+.search-button {
+}
+
+.search-button:hover {
+  cursor: pointer;
+}
+
+.login-button {
+  font-size: 16px;
+  color: black;
+  text-decoration: none;
+}
+
+.login-button:hover {
+  cursor: pointer;
+  background-color: lightgray;
+}
+
+/*Miscellaneous*/
+
+.top-left-header-text {
+  font-size: calc(10px + 2vmin);
+  color: black;
+  font-weight: bold;
+}
+
+.border-radius-30px {
+  border-radius: 30px;
+}
+
+.border-radius-100 {
+  border-radius: 50%;
+}
+
+.flex-grow-1 {
+  flex-grow: 1;
+}
+
+.search-input {
+  flex-grow: 1;
+  border: none;
+  font-size: 14px;
+  min-height: 30px;
+}
