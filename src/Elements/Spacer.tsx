@@ -6,8 +6,8 @@ interface SpacerProps {
 }
 
 export function Spacer(prop: SpacerProps) {
-  const width = prop.direction === 'vertical' ? 1 : prop.size
-  const height = prop.direction === 'horizontal' ? 1 : prop.size
+  const width = prop.direction.toLowerCase() === 'vertical' ? 1 : prop.size
+  const height = prop.direction.toLowerCase() === 'horizontal' ? 1 : prop.size
 
   return (
     <span
