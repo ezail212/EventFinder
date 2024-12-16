@@ -13,12 +13,12 @@ import { AccountDropdownMenuItem } from '../Models/AccountDropdownMenuItem'
 import { LOG_OUT_ENDPOINT } from '../Common/EndpointConstants'
 
 interface HeaderProps {
-  isLoggedIn?: boolean
+  loggedInUser?: string
 }
 
-const getDropdownMenuItems = (): AccountDropdownMenuItem[] => {
+const getDropdownMenuItems = (loggedInUser: string): AccountDropdownMenuItem[] => {
   return [
-    { reactIcon: BsPersonCircle, text: 'superuser', navigateTo: HOME_PATH },
+    { reactIcon: BsPersonCircle, text: loggedInUser, navigateTo: HOME_PATH },
     {
       reactIcon: IoLogOutSharp,
       text: 'Log out',
@@ -68,11 +68,11 @@ export const Header = (props: HeaderProps) => {
           </button>
         </div>
       </div>
-      {props.isLoggedIn ? (
+      {props.loggedInUser ? (
         <>
           <Spacer direction='horizontal' size={680} />
           <div className='position-relative align-center flexbox justify-content-flex-end'>
-            <ButtonWithDropdownMenu data={getDropdownMenuItems()} />
+            <ButtonWithDropdownMenu data={getDropdownMenuItems(props.loggedInUser)} />
           </div>
         </>
       ) : (

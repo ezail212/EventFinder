@@ -7,7 +7,7 @@ import {
   USER_ASIDE_ID,
   USER_DIV_ID,
 } from '../Common/ElementIds'
-import { USER_REQUIRED, PASSWORD_REQUIRED } from '../Common/StringConstants'
+import { USER_REQUIRED, PASSWORD_REQUIRED, USER_NOT_FOUND } from '../Common/StringConstants'
 import { HOME_PATH, SIGNUP_PATH } from '../Common/PathConstants'
 import { LogoButton } from '../Elements/LogoButton'
 import { LOGIN_ENDPOINT } from '../Common/EndpointConstants'
@@ -19,9 +19,33 @@ export const LoginPage = () => {
   const passwordInputRef = useRef<HTMLInputElement>(null)
 
   let userAsideElement: HTMLElement | null
+
+  const fetchApi = async (loginData: LoginData) => {
+    const response = await fetch(LOGIN_ENDPOINT, {
+      method: 'POST',
+      credentials: 'include',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(loginData),
+    })
+      .then((response) => {
+        if (response.status === 404) throw new Error(USER_NOT_FOUND)
+        else {
+          console.log(response)
+          return response
+        }
+      })
+      .catch((err) => {
+        alert(err)
+        return null
+      })
+
+    return response
+  }
+
   const onLogInClick = async (event) => {
     event.preventDefault()
-    console.log(event.code)
     if (user.trim().length === 0) {
       userAsideElement = document.getElementById(USER_ASIDE_ID)
       if (!userAsideElement) {
@@ -67,19 +91,10 @@ export const LoginPage = () => {
       Password: password,
     }
 
-    await fetch(LOGIN_ENDPOINT, {
-      method: 'POST',
-      credentials: 'include',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(loginData),
-    })
-      .then((res) => res.json())
-      .then((data) => console.log(data))
-      .catch((err) => console.log(err))
-
-    navigateToHome(HOME_PATH)
+    const response = await fetchApi(loginData)
+    if (response) {
+      navigateToHome(HOME_PATH)
+    }
   }
 
   const createAsideElement = (asideId: string, text?: string) => {

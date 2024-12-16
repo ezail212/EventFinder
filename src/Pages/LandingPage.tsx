@@ -1,33 +1,36 @@
 import { Header } from '../Components/Header'
 import { TopEvents } from '../Components/TopEvents'
 import { useEffect, useState } from 'react'
-import { LOGGEDIN_ENDPOINT } from '../Common/EndpointConstants'
+import { GET_LOGGEDIN_USER_ENDPOINT } from '../Common/EndpointConstants'
 
 export const LandingPage = () => {
-  const [loggedIn, setLoggedIn] = useState(false)
+  const [loggedInUser, setLoggedInUser] = useState('')
 
-  const checkLoggedIn = async () => {
-    await fetch(LOGGEDIN_ENDPOINT, {
-      method: 'POST',
+  const handleLoggedInUserResponse = async (loggedInUser: string) => {
+    await setLoggedInUser(loggedInUser)
+  }
+
+  const checkLoggedInUser = async () => {
+    await fetch(GET_LOGGEDIN_USER_ENDPOINT, {
+      method: 'GET',
       credentials: 'include',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ Username: 'superuser' }),
     })
       .then((res) => res.json())
       .then((data) => {
-        setLoggedIn(data)
+        handleLoggedInUserResponse(data)
       })
   }
 
   useEffect(() => {
-    checkLoggedIn()
+    checkLoggedInUser()
   })
 
   return (
     <>
-      <Header isLoggedIn={loggedIn} />
+      <Header loggedInUser={loggedInUser} />
       <TopEvents />
     </>
   )
