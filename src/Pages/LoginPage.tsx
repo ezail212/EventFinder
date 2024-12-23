@@ -2,15 +2,15 @@ import { Spacer } from '../Elements/Spacer'
 import { useRef, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import {
-  PASSWORD_DIV_ID,
   PASSWORD_ASIDE_ID,
+  PASSWORD_DIV_ID,
   USER_ASIDE_ID,
   USER_DIV_ID,
 } from '../Common/ElementIds'
-import { USER_REQUIRED, PASSWORD_REQUIRED, USER_NOT_FOUND } from '../Common/StringConstants'
+import { PASSWORD_REQUIRED, USER_OR_EMAIL_REQUIRED } from '../Common/StringConstants'
 import { HOME_PATH, SIGNUP_PATH } from '../Common/PathConstants'
 import { LogoButton } from '../Elements/LogoButton'
-import { LOGIN_ENDPOINT } from '../Common/EndpointConstants'
+import { createAsideElement, fetchLoginApi } from '../Common/Utility'
 import { LoginData } from '../Models/LoginData'
 
 export const LoginPage = () => {
@@ -20,36 +20,12 @@ export const LoginPage = () => {
 
   let userAsideElement: HTMLElement | null
 
-  const fetchApi = async (loginData: LoginData) => {
-    const response = await fetch(LOGIN_ENDPOINT, {
-      method: 'POST',
-      credentials: 'include',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(loginData),
-    })
-      .then((response) => {
-        if (response.status === 404) throw new Error(USER_NOT_FOUND)
-        else {
-          console.log(response)
-          return response
-        }
-      })
-      .catch((err) => {
-        alert(err)
-        return null
-      })
-
-    return response
-  }
-
   const onLogInClick = async (event) => {
     event.preventDefault()
     if (user.trim().length === 0) {
       userAsideElement = document.getElementById(USER_ASIDE_ID)
       if (!userAsideElement) {
-        const userAsideElement = createAsideElement(USER_ASIDE_ID, USER_REQUIRED)
+        const userAsideElement = createAsideElement(USER_ASIDE_ID, USER_OR_EMAIL_REQUIRED)
         const userDiv = document.getElementById(USER_DIV_ID)
         if (userDiv !== null) {
           userDiv.appendChild(userAsideElement)
@@ -91,21 +67,10 @@ export const LoginPage = () => {
       Password: password,
     }
 
-    const response = await fetchApi(loginData)
+    const response = await fetchLoginApi(loginData)
     if (response) {
       navigateToHome(HOME_PATH)
     }
-  }
-
-  const createAsideElement = (asideId: string, text?: string) => {
-    const asideElement = document.createElement('aside')
-    asideElement.setAttribute('id', asideId)
-    const textElement = document.createElement('p')
-    textElement.classList.add('color-red')
-    textElement.classList.add('font-14px')
-    textElement.textContent = text!
-    asideElement.appendChild(textElement)
-    return asideElement
   }
 
   const onUserClick = () => {
@@ -160,6 +125,7 @@ export const LoginPage = () => {
                 type='text'
                 ref={userInputRef}
                 onChange={onChangeUser}
+                required={true}
               ></input>
             </div>
             <div
@@ -175,6 +141,7 @@ export const LoginPage = () => {
                 type='password'
                 ref={passwordInputRef}
                 onChange={onChangePassword}
+                required={true}
               ></input>
             </div>
             <button hidden type='submit'></button>

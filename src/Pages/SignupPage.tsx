@@ -1,9 +1,25 @@
 import { Spacer } from '../Elements/Spacer'
-import { EMAIL_DIV_ID, PASSWORD_DIV_ID, USERNAME_DIV_ID } from '../Common/ElementIds'
+import {
+  EMAIL_ASIDE_ID,
+  EMAIL_DIV_ID,
+  PASSWORD_ASIDE_ID,
+  PASSWORD_DIV_ID,
+  USER_ASIDE_ID,
+  USERNAME_DIV_ID,
+} from '../Common/ElementIds'
 import { HOME_PATH, LOGIN_PATH } from '../Common/PathConstants'
 import { useRef, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { LogoButton } from '../Elements/LogoButton'
+import { SIGN_UP_ENDPOINT } from '../Common/EndpointConstants'
+import {
+  EMAIL_REQUIRED,
+  PASSWORD_REQUIRED,
+  USER_EXISTS,
+  USERNAME_REQUIRED,
+} from '../Common/StringConstants'
+import { createAsideElement, fetchLoginApi } from '../Common/Utility'
+import { LoginData } from '../Models/LoginData'
 
 export const SignupPage = () => {
   const navigateToHome = useNavigate()
@@ -36,7 +52,95 @@ export const SignupPage = () => {
     setPassword(e.target.value)
   }
 
-  const onSignUpClick = () => {}
+  const onSignUpClick = async (event) => {
+    event.preventDefault()
+
+    let userAsideElement: HTMLElement | null
+    if (username.trim().length === 0) {
+      userAsideElement = document.getElementById(USER_ASIDE_ID)
+      if (!userAsideElement) {
+        const userAsideElement = createAsideElement(USER_ASIDE_ID, USERNAME_REQUIRED)
+        const userDiv = document.getElementById(USERNAME_DIV_ID)
+        if (userDiv !== null) {
+          userDiv.appendChild(userAsideElement)
+        }
+      } else {
+        userAsideElement.hidden = false
+      }
+      return
+    } else {
+      userAsideElement = document.getElementById(USER_ASIDE_ID)
+      if (userAsideElement) {
+        userAsideElement.hidden = true
+      }
+    }
+
+    let emailAsideElement: HTMLElement | null
+    if (email.trim().length === 0) {
+      emailAsideElement = document.getElementById(EMAIL_ASIDE_ID)
+      if (!emailAsideElement) {
+        const emailAsideElement = createAsideElement(EMAIL_ASIDE_ID, EMAIL_REQUIRED)
+        const emailDiv = document.getElementById(EMAIL_DIV_ID)
+        if (emailDiv !== null) {
+          emailDiv.appendChild(emailAsideElement)
+        }
+      } else {
+        emailAsideElement.hidden = false
+      }
+      return
+    } else {
+      emailAsideElement = document.getElementById(EMAIL_ASIDE_ID)
+      if (emailAsideElement) {
+        emailAsideElement.hidden = true
+      }
+    }
+
+    let passwordAsideElement: HTMLElement | null
+    if (password.trim().length === 0) {
+      passwordAsideElement = document.getElementById(PASSWORD_ASIDE_ID)
+      if (!passwordAsideElement) {
+        const passwordAsideElement = createAsideElement(PASSWORD_ASIDE_ID, PASSWORD_REQUIRED)
+        const passwordDiv = document.getElementById(PASSWORD_DIV_ID)
+        if (passwordDiv !== null) {
+          passwordDiv.appendChild(passwordAsideElement)
+        }
+      } else {
+        passwordAsideElement.hidden = false
+      }
+      return
+    } else {
+      passwordAsideElement = document.getElementById(PASSWORD_ASIDE_ID)
+      if (passwordAsideElement) {
+        passwordAsideElement.hidden = true
+      }
+    }
+
+    const loginData: LoginData = {
+      Username: username.trim(),
+      Email: email.trim(),
+      Password: password,
+    }
+
+    return await fetch(SIGN_UP_ENDPOINT, {
+      method: 'POST',
+      headers: {
+        'Content-type': 'application/json',
+      },
+      body: JSON.stringify(loginData),
+    })
+      .then(async (response) => {
+        if (response.status >= 400) throw new Error(USER_EXISTS)
+        else {
+          const loginResponse = await fetchLoginApi({
+            Username: 'superuser',
+            Email: '',
+            Password: 'string',
+          })
+          if (loginResponse) navigateToHome(HOME_PATH)
+        }
+      })
+      .catch((error) => alert(error))
+  }
 
   const handleLogoClick = () => {
     navigateToHome(HOME_PATH)
@@ -58,7 +162,7 @@ export const SignupPage = () => {
             <Spacer direction={'horizontal'} size={300} />
             <a href={LOGIN_PATH}>Log In</a>
           </div>
-          <form className='border-solid-1px border-radius-5px'>
+          <form className='border-solid-1px border-radius-5px' onSubmit={onSignUpClick}>
             <div
               className='flexbox-column align-start padding-x-10px padding-y-5px login-input-container border-radius-5px'
               onClick={onUsernameClick}
@@ -72,6 +176,7 @@ export const SignupPage = () => {
                 type='text'
                 ref={usernameInputRef}
                 onChange={onChangeUsername}
+                required={true}
               ></input>
             </div>
             <div
@@ -87,6 +192,7 @@ export const SignupPage = () => {
                 type='text'
                 ref={emailInputRef}
                 onChange={onChangeEmail}
+                required={true}
               ></input>
             </div>
             <div
@@ -102,12 +208,14 @@ export const SignupPage = () => {
                 type='password'
                 ref={passwordInputRef}
                 onChange={onChangePassword}
+                required={true}
               ></input>
             </div>
+            <button hidden type='submit'></button>
           </form>
           <Spacer direction={'vertical'} size={50} />
           <button
-            type='button'
+            type='submit'
             className='login-button min-width-100-percent min-height-50px border-radius-5px'
             onClick={onSignUpClick}
           >
