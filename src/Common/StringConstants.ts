@@ -7,3 +7,5 @@ export const USER_EXISTS = 'User already exists'
 export const PASSWORD_REQUIREMENT =
   'Password needs to be at least 8 english characters, with at least 1 upper case, 1 lower case, and 1 number'
 export const EMAIL_NOT_VALID = 'Email is not valid'
+export const EMAIL_VALIDATOR = '^[\\w-.]+@([\\w-]+.)+[\\w-]{2,4}$'
+export const PASSWORD_VALIDATOR = '^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{8,}$'

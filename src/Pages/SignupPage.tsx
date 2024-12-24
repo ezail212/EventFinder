@@ -15,8 +15,10 @@ import { SIGN_UP_ENDPOINT } from '../Common/EndpointConstants'
 import {
   EMAIL_NOT_VALID,
   EMAIL_REQUIRED,
+  EMAIL_VALIDATOR,
   PASSWORD_REQUIRED,
   PASSWORD_REQUIREMENT,
+  PASSWORD_VALIDATOR,
   USER_EXISTS,
   USERNAME_REQUIRED,
 } from '../Common/StringConstants'
@@ -91,7 +93,7 @@ export const SignupPage = () => {
       }
       return
     } else {
-      const validEmail = RegExp('^[\\w-.]+@([\\w-]+.)+[\\w-]{2,4}$')
+      const validEmail = RegExp(EMAIL_VALIDATOR)
       emailAsideElement = document.getElementById(EMAIL_ASIDE_ID)
 
       if (!validEmail.test(email) && emailAsideElement) {
@@ -123,7 +125,7 @@ export const SignupPage = () => {
       }
       return
     } else {
-      const validPassword = new RegExp('^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{8,}$')
+      const validPassword = new RegExp(PASSWORD_VALIDATOR)
       passwordAsideElement = document.getElementById(PASSWORD_ASIDE_ID)
 
       if (!validPassword.test(password) && passwordAsideElement) {
