@@ -13,8 +13,10 @@ import { useNavigate } from 'react-router-dom'
 import { LogoButton } from '../Elements/LogoButton'
 import { SIGN_UP_ENDPOINT } from '../Common/EndpointConstants'
 import {
+  EMAIL_NOT_VALID,
   EMAIL_REQUIRED,
   PASSWORD_REQUIRED,
+  PASSWORD_REQUIREMENT,
   USER_EXISTS,
   USERNAME_REQUIRED,
 } from '../Common/StringConstants'
@@ -89,8 +91,20 @@ export const SignupPage = () => {
       }
       return
     } else {
+      const validEmail = RegExp('^[\\w-.]+@([\\w-]+.)+[\\w-]{2,4}$')
       emailAsideElement = document.getElementById(EMAIL_ASIDE_ID)
-      if (emailAsideElement) {
+
+      if (!validEmail.test(email) && emailAsideElement) {
+        emailAsideElement.hidden = false
+        const textElement = emailAsideElement.children[0]
+        textElement.textContent = EMAIL_NOT_VALID
+        return
+      } else if (!validEmail.test(email) && !emailAsideElement) {
+        emailAsideElement = createAsideElement(EMAIL_ASIDE_ID, EMAIL_NOT_VALID)
+        const emailDiv = document.getElementById(EMAIL_DIV_ID)
+        emailDiv?.appendChild(emailAsideElement)
+        return
+      } else if (validEmail.test(email) && emailAsideElement) {
         emailAsideElement.hidden = true
       }
     }
@@ -109,8 +123,20 @@ export const SignupPage = () => {
       }
       return
     } else {
+      const validPassword = new RegExp('^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{8,}$')
       passwordAsideElement = document.getElementById(PASSWORD_ASIDE_ID)
-      if (passwordAsideElement) {
+
+      if (!validPassword.test(password) && passwordAsideElement) {
+        passwordAsideElement.hidden = false
+        const textElement = passwordAsideElement.children[0]
+        textElement.textContent = PASSWORD_REQUIREMENT
+        return
+      } else if (!validPassword.test(password) && !passwordAsideElement) {
+        passwordAsideElement = createAsideElement(PASSWORD_ASIDE_ID, PASSWORD_REQUIREMENT)
+        const passwordDiv = document.getElementById(PASSWORD_DIV_ID)
+        passwordDiv?.appendChild(passwordAsideElement)
+        return
+      } else if (validPassword.test(password) && passwordAsideElement) {
         passwordAsideElement.hidden = true
       }
     }
