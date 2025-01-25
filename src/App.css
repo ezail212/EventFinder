@@ -307,6 +307,13 @@
   cursor: pointer;
 }
 
+.filter-button {
+}
+
+.filter-button:hover {
+  cursor: pointer;
+}
+
 .dropdown-button {
 }
 

@@ -2,11 +2,11 @@ import { AccountDropdownMenuItem } from '../Models/AccountDropdownMenuItem'
 import { Spacer } from './Spacer'
 import { useNavigate } from 'react-router-dom'
 
-interface DropdownMenuProps {
+interface LoggedInDropdownMenuProps {
   data: AccountDropdownMenuItem[]
 }
 
-export const DropdownMenu = (props: DropdownMenuProps) => {
+export const LoggedInDropdownMenu = (props: LoggedInDropdownMenuProps) => {
   const navigate = useNavigate()
   const onDropdownItemClick = async (item: AccountDropdownMenuItem) => {
     if (!item.endpoint) {

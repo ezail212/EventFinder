@@ -1,13 +1,14 @@
-import React from 'react'
-import { BsPersonCircle } from 'react-icons/bs'
-import { DropdownMenu } from '../Elements/DropdownMenu'
+import { IconType } from 'react-icons'
 import { AccountDropdownMenuItem } from '../Models/AccountDropdownMenuItem'
+import React from 'react'
+import { LoggedInDropdownMenu } from '../Elements/LoggedInDropdownMenu'
 
-interface ButtonWithDropdownMenuProps {
+interface FilterButtonWithDropdownMenuProps {
+  displayIcon: IconType
   data: AccountDropdownMenuItem[]
 }
 
-export const ButtonWithDropdownMenu = (props: ButtonWithDropdownMenuProps) => {
+export const FilterButtonWithDropdownMenu = (props: FilterButtonWithDropdownMenuProps) => {
   const [isOpen, setIsOpen] = React.useState(false)
 
   const onButtonClick = () => {
@@ -20,8 +21,8 @@ export const ButtonWithDropdownMenu = (props: ButtonWithDropdownMenuProps) => {
         className='dropdown-button background-color-white border-none'
         onClick={onButtonClick}
       >
-        <BsPersonCircle size={30} color='black' />
-        {isOpen && <DropdownMenu data={props.data} />}
+        <props.displayIcon size={30} color='black' />
+        {isOpen && <LoggedInDropdownMenu data={props.data} />}
       </button>
     </div>
   )

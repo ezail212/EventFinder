@@ -6,11 +6,12 @@ import { useNavigate } from 'react-router-dom'
 import { Spacer } from '../Elements/Spacer'
 import { HOME_PATH, LOGIN_PATH, SIGNUP_PATH } from '../Common/PathConstants'
 import { LogoButton } from '../Elements/LogoButton'
-import { BsPersonCircle } from 'react-icons/bs'
+import { BsFillFilterCircleFill, BsPersonCircle } from 'react-icons/bs'
 import { IoLogOutSharp } from 'react-icons/io5'
-import { ButtonWithDropdownMenu } from './ButtonWithDropdownMenu'
+import { LoggedInButtonWithDropdownMenu } from './LoggedInButtonWithDropdownMenu'
 import { AccountDropdownMenuItem } from '../Models/AccountDropdownMenuItem'
 import { LOG_OUT_ENDPOINT } from '../Common/EndpointConstants'
+import { FilterButtonWithDropdownMenu } from './FilterButtonWithDropdownMenu'
 
 interface HeaderProps {
   loggedInUser?: string
@@ -68,16 +69,23 @@ export const Header = (props: HeaderProps) => {
           </button>
         </div>
       </div>
+      <Spacer direction='horizontal' size={20} />
+      <div className='flexbox align-center'>
+        <FilterButtonWithDropdownMenu displayIcon={BsFillFilterCircleFill} data={[]} />
+      </div>
       {props.loggedInUser ? (
         <>
-          <Spacer direction='horizontal' size={680} />
+          <Spacer direction='horizontal' size={600} />
           <div className='position-relative align-center flexbox justify-content-flex-end'>
-            <ButtonWithDropdownMenu data={getDropdownMenuItems(props.loggedInUser)} />
+            <LoggedInButtonWithDropdownMenu
+              displayIcon={BsPersonCircle}
+              data={getDropdownMenuItems(props.loggedInUser)}
+            />
           </div>
         </>
       ) : (
         <>
-          <Spacer direction='horizontal' size={550} />
+          <Spacer direction='horizontal' size={500} />
           <div className='flexbox align-center flexbox justify-content-flex-end'>
             <a
               className='login-button background-color-transparent border-none padding-10px border-radius-30px'

@@ -27,6 +27,14 @@ export const fetchLoginApi = async (loginData: LoginData) => {
     })
 }
 
+// export const getLoggedInUser = async () => {
+//   try {
+//     const user = await fetchLoggedInUser()
+//   } catch (error) {
+//     throw new error
+//   }
+// }
+
 export const createAsideElement = (asideId: string, text?: string) => {
   const asideElement = document.createElement('aside')
   asideElement.setAttribute('id', asideId)
